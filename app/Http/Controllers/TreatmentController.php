@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class TreatmentController extends Controller
 {
     public function index() {
-        $treatments = Treatment::with(['patient', 'doctor'])->paginate(10);
+        $treatments = Treatment::with(['patient', 'doctor', 'service'])->paginate(10);
         return view('treatments.index', compact('treatments'));
     }
     
@@ -25,8 +25,14 @@ class TreatmentController extends Controller
             'service_id' => 'required|exists:services,id',
             'details' => 'required|string',
             'treatment_date' => 'required|date',
-            'status' => 'required|string|in:scheduled,in_progress,completed,cancelled'
+            'status' => 'required|string|in:scheduled,in_progress,completed,cancelled',
+            'cost' => 'nullable|numeric|min:0',
+            'treatment_type' => 'nullable|string'
         ]);
+        
+        // Set default values if not provided
+        $validated['cost'] = $validated['cost'] ?? 0.00;
+        $validated['treatment_type'] = $validated['treatment_type'] ?? null;
         
         Treatment::create($validated);
         return redirect()->route('treatments.index')->with('success', 'Treatment created successfully!');
@@ -48,8 +54,14 @@ class TreatmentController extends Controller
             'service_id' => 'required|exists:services,id',
             'details' => 'required|string',
             'treatment_date' => 'required|date',
-            'status' => 'required|string|in:scheduled,in_progress,completed,cancelled'
+            'status' => 'required|string|in:scheduled,in_progress,completed,cancelled',
+            'cost' => 'nullable|numeric|min:0',
+            'treatment_type' => 'nullable|string'
         ]);
+        
+        // Set default values if not provided
+        $validated['cost'] = $validated['cost'] ?? 0.00;
+        $validated['treatment_type'] = $validated['treatment_type'] ?? null;
         
         $treatment->update($validated);
         return redirect()->route('treatments.index')->with('success', 'Treatment updated successfully!');

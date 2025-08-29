@@ -75,7 +75,7 @@
                                 <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
                                     <i class="fas fa-file-alt text-indigo-600 text-sm"></i>
                                 </div>
-                                <span class="text-sm font-medium text-gray-900">{{ $report->title ?? 'N/A' }}</span>
+                                <span class="text-sm font-medium text-gray-900">{{ $report->type ?? 'N/A' }}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -83,7 +83,13 @@
                                 <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                                     <i class="fas fa-user text-blue-600 text-sm"></i>
                                 </div>
-                                <span class="text-sm font-medium text-gray-900">{{ $report->patient->name ?? 'N/A' }}</span>
+                                <span class="text-sm font-medium text-gray-900">
+                                    @if($report->patient)
+                                        {{ $report->patient->name }}
+                                    @else
+                                        <span class="text-red-500">Patient ID: {{ $report->patient_id }} (Not Found)</span>
+                                    @endif
+                                </span>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -91,7 +97,13 @@
                                 <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
                                     <i class="fas fa-user-md text-purple-600 text-sm"></i>
                                 </div>
-                                <span class="text-sm font-medium text-gray-900">{{ $report->doctor->name ?? 'N/A' }}</span>
+                                <span class="text-sm font-medium text-gray-900">
+                                    @if($report->doctor)
+                                        {{ $report->doctor->name }}
+                                    @else
+                                        <span class="text-red-500">Doctor ID: {{ $report->doctor_id }} (Not Found)</span>
+                                    @endif
+                                </span>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -99,13 +111,13 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-                                {{ $report->report_type ?? 'N/A' }}
+                                {{ $report->type ?? 'N/A' }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
                             <div class="max-w-xs">
-                                <p class="text-sm text-gray-900 truncate" title="{{ $report->summary }}">
-                                    {{ Str::limit($report->summary, 50) }}
+                                <p class="text-sm text-gray-900 truncate" title="{{ $report->content }}">
+                                    {{ Str::limit($report->content, 50) }}
                                 </p>
                             </div>
                         </td>

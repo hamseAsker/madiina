@@ -118,6 +118,37 @@
                     </div>
                 </div>
 
+                <!-- Cost and Treatment Type Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Cost -->
+                    <div class="space-y-2">
+                        <label for="cost" class="block text-sm font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
+                            Cost
+                        </label>
+                        <input type="number" name="cost" id="cost" step="0.01" min="0"
+                               value="{{ old('cost', '0.00') }}" placeholder="0.00"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200">
+                        @error('cost')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Treatment Type -->
+                    <div class="space-y-2">
+                        <label for="treatment_type" class="block text-sm font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-stethoscope text-blue-500 mr-2"></i>
+                            Treatment Type
+                        </label>
+                        <input type="text" name="treatment_type" id="treatment_type"
+                               value="{{ old('treatment_type') }}" placeholder="e.g., Cleaning, Filling, Extraction"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                        @error('treatment_type')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
                     <!-- Save Button -->

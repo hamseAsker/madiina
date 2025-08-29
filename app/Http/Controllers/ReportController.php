@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use App\Models\Patient;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -14,13 +15,15 @@ class ReportController extends Controller
     
     public function create() {
         $patients = Patient::all();
-        return view('reports.create', compact('patients'));
+        $doctors = Doctor::all();
+        return view('reports.create', compact('patients', 'doctors'));
     }
     
     public function store(Request $request) {
         $validated = $request->validate([
             'type' => 'required|string|max:255',
             'patient_id' => 'required|exists:patients,id',
+            'doctor_id' => 'required|exists:doctors,id',
             'content' => 'required|string',
             'report_date' => 'required|date',
             'status' => 'required|string|in:draft,completed,pending,reviewed'
@@ -36,13 +39,15 @@ class ReportController extends Controller
     
     public function edit(Report $report) {
         $patients = Patient::all();
-        return view('reports.edit', compact('report', 'patients'));
+        $doctors = Doctor::all();
+        return view('reports.edit', compact('report', 'patients', 'doctors'));
     }
     
     public function update(Request $request, Report $report) {
         $validated = $request->validate([
             'type' => 'required|string|max:255',
             'patient_id' => 'required|exists:patients,id',
+            'doctor_id' => 'required|exists:doctors,id',
             'content' => 'required|string',
             'report_date' => 'required|date',
             'status' => 'required|string|in:draft,completed,pending,reviewed'

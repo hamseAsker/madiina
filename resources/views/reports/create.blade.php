@@ -67,6 +67,24 @@
                     @enderror
                 </div>
 
+                <!-- Doctor Selection -->
+                <div class="space-y-2">
+                    <label for="doctor_id" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-user-md text-indigo-500 mr-2"></i>
+                        Doctor
+                    </label>
+                    <select name="doctor_id" id="doctor_id" required 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-white">
+                        <option value="">Select Doctor</option>
+                        @foreach($doctors ?? [] as $doctor)
+                            <option value="{{ $doctor->id }}">{{ $doctor->name }} - {{ $doctor->specialization }}</option>
+                        @endforeach
+                    </select>
+                    @error('doctor_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Report Content -->
                 <div class="space-y-2">
                     <label for="content" class="block text-sm font-medium text-gray-700 flex items-center">

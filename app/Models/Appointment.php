@@ -16,6 +16,10 @@ class Appointment extends Model
         'notes'
     ];
 
+    protected $casts = [
+        'appointment_time' => 'datetime',
+    ];
+
     // Relationships
     public function patient()
     {

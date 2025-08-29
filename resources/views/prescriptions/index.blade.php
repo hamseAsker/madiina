@@ -75,7 +75,13 @@
                                 <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                                     <i class="fas fa-user text-blue-600 text-sm"></i>
                                 </div>
-                                <span class="text-sm font-medium text-gray-900">{{ $prescription->patient->name ?? 'N/A' }}</span>
+                                <span class="text-sm font-medium text-gray-900">
+                                    @if($prescription->patient)
+                                        {{ $prescription->patient->name }}
+                                    @else
+                                        <span class="text-red-500">Patient ID: {{ $prescription->patient_id }} (Not Found)</span>
+                                    @endif
+                                </span>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -83,12 +89,18 @@
                                 <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
                                     <i class="fas fa-user-md text-purple-600 text-sm"></i>
                                 </div>
-                                <span class="text-sm font-medium text-gray-900">{{ $prescription->doctor->name ?? 'N/A' }}</span>
+                                <span class="text-sm font-medium text-gray-900">
+                                    @if($prescription->doctor)
+                                        {{ $prescription->doctor->name }}
+                                    @else
+                                        <span class="text-red-500">Doctor ID: {{ $prescription->doctor_id }} (Not Found)</span>
+                                    @endif
+                                </span>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                {{ $prescription->medication_name }}
+                                {{ Str::limit($prescription->medication, 30) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

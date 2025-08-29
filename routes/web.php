@@ -48,3 +48,8 @@ Route::resource('payments', App\Http\Controllers\PaymentController::class);
 Route::resource('prescriptions', App\Http\Controllers\PrescriptionController::class);
 Route::resource('reports', App\Http\Controllers\ReportController::class);
 Route::resource('roles', App\Http\Controllers\RoleController::class);
+
+// API Routes for dynamic data
+Route::get('/api/patient-balance/{patient}', [App\Http\Controllers\PaymentController::class, 'getPatientBalance'])->name('api.patient.balance');
+Route::get('/api/patient-treatments/{patient}', [App\Http\Controllers\PaymentController::class, 'getPatientTreatmentCosts'])->name('api.patient.treatments');
+Route::get('/api/remaining-treatments/{patient}/{amount}', [App\Http\Controllers\PaymentController::class, 'getRemainingTreatments'])->name('api.remaining.treatments');

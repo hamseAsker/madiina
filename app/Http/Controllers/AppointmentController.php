@@ -60,3 +60,4 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully.');
     }
 }
+

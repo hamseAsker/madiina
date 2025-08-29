@@ -88,7 +88,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                {{ $treatment->treatment_type }}
+                                {{ $treatment->treatment_type ?? ($treatment->service->name ?? 'N/A') }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -96,14 +96,14 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="max-w-xs">
-                                <p class="text-sm text-gray-900 truncate" title="{{ $treatment->description }}">
-                                    {{ Str::limit($treatment->description, 50) }}
+                                <p class="text-sm text-gray-900 truncate" title="{{ $treatment->details }}">
+                                    {{ Str::limit($treatment->details ?? 'No description', 50) }}
                                 </p>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="text-sm font-semibold text-green-600">
-                                ${{ number_format($treatment->cost, 2) }}
+                                ${{ number_format($treatment->cost ?? 0, 2) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">

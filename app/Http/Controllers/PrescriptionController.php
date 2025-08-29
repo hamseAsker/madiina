@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prescription;
+use App\Models\Patient;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 
 class PrescriptionController extends Controller
@@ -10,25 +12,53 @@ class PrescriptionController extends Controller
         $prescriptions = Prescription::with(['patient', 'doctor'])->paginate(10);
         return view('prescriptions.index', compact('prescriptions'));
     }
+    
     public function create() {
-        return view('prescriptions.create');
+        $patients = Patient::all();
+        $doctors = Doctor::all();
+        return view('prescriptions.create', compact('patients', 'doctors'));
     }
+    
     public function store(Request $request) {
-        Prescription::create($request->all());
-        return redirect()->route('prescriptions.index');
+        $validated = $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_id' => 'required|exists:doctors,id',
+            'medication' => 'required|string',
+            'instructions' => 'required|string',
+            'prescribed_date' => 'required|date',
+            'duration' => 'nullable|string'
+        ]);
+        
+        Prescription::create($validated);
+        return redirect()->route('prescriptions.index')->with('success', 'Prescription created successfully!');
     }
+    
     public function show(Prescription $prescription) {
         return view('prescriptions.show', compact('prescription'));
     }
+    
     public function edit(Prescription $prescription) {
-        return view('prescriptions.edit', compact('prescription'));
+        $patients = Patient::all();
+        $doctors = Doctor::all();
+        return view('prescriptions.edit', compact('prescription', 'patients', 'doctors'));
     }
+    
     public function update(Request $request, Prescription $prescription) {
-        $prescription->update($request->all());
-        return redirect()->route('prescriptions.index');
+        $validated = $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_id' => 'required|exists:doctors,id',
+            'medication' => 'required|string',
+            'instructions' => 'required|string',
+            'prescribed_date' => 'required|date',
+            'duration' => 'nullable|string'
+        ]);
+        
+        $prescription->update($validated);
+        return redirect()->route('prescriptions.index')->with('success', 'Prescription updated successfully!');
     }
+    
     public function destroy(Prescription $prescription) {
         $prescription->delete();
-        return redirect()->route('prescriptions.index');
+        return redirect()->route('prescriptions.index')->with('success', 'Prescription deleted successfully!');
     }
 }

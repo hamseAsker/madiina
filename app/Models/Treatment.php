@@ -13,11 +13,14 @@ class Treatment extends Model
         'service_id', 
         'details',
         'treatment_date',
-        'status'
+        'status',
+        'cost',
+        'treatment_type'
     ];
     
     protected $casts = [
-        'treatment_date' => 'date'
+        'treatment_date' => 'date',
+        'cost' => 'decimal:2'
     ];
     
     // Relationships
@@ -39,5 +42,19 @@ class Treatment extends Model
     public function doctor()
     {
         return $this->hasOneThrough(Doctor::class, Appointment::class, 'id', 'id', 'appointment_id', 'doctor_id');
+    }
+    
+    // Scope to get treatments by patient
+    public function scopeByPatient($query, $patientId)
+    {
+        return $query->whereHas('appointment', function($q) use ($patientId) {
+            $q->where('patient_id', $patientId);
+        });
+    }
+    
+    // Get patient ID directly
+    public function getPatientIdAttribute()
+    {
+        return $this->appointment->patient_id ?? null;
     }
 }
